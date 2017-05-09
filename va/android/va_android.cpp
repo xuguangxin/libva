@@ -41,7 +41,7 @@
 
 
 #define CHECK_SYMBOL(func) { if (!func) printf("func %s not found\n", #func); return VA_STATUS_ERROR_UNKNOWN; }
-#define DEVICE_NAME "/dev/dri/card0"
+#define DEVICE_NAME "/dev/dri/renderD128"
 
 static int open_device (char *dev_name)
 {
@@ -194,7 +194,7 @@ extern "C"  {
 VAStatus vaPutSurface (
     VADisplay dpy,
     VASurfaceID surface,
-    sp<ISurface> draw, /* Android Surface/Window */
+    sp<ANativeWindow> draw, /* Android Native Window */
     short srcx,
     short srcy,
     unsigned short srcw,
