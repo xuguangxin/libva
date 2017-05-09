@@ -161,7 +161,7 @@ ensure_image_formats(void)
     if (num_image_formats == 0)
         return 0;
 
-    image_formats = (VAImageFormat *)malloc(num_image_formats * sizeof(*image_formats));
+    image_formats = malloc(num_image_formats * sizeof(*image_formats));
     if (!image_formats)
         return 0;
 
@@ -210,7 +210,7 @@ ensure_surface_attribs(void)
     /* Guess the number of surface attributes, thus including any
        pixel-format supported by the VA driver */
     num_surface_attribs = VASurfaceAttribCount + num_image_formats;
-    surface_attribs = (VASurfaceAttrib *)malloc(num_surface_attribs * sizeof(*surface_attribs));
+    surface_attribs = malloc(num_surface_attribs * sizeof(*surface_attribs));
     if (!surface_attribs)
         return 0;
 
@@ -219,7 +219,7 @@ ensure_surface_attribs(void)
     if (va_status == VA_STATUS_SUCCESS)
         va_surface_attribs =  surface_attribs;
     else if (va_status == VA_STATUS_ERROR_MAX_NUM_EXCEEDED) {
-        va_surface_attribs = (VASurfaceAttrib *)realloc(surface_attribs,
+        va_surface_attribs = realloc(surface_attribs,
             num_surface_attribs * sizeof(*va_surface_attribs));
         if (!va_surface_attribs) {
             free(surface_attribs);
@@ -256,12 +256,7 @@ lookup_surface_attrib(VASurfaceAttribType type, const VAGenericValue *value)
 int csc_preparation ()
 {
     VAStatus va_status;
-    VASurfaceAttrib surface_attribs[1], * const s_attrib = &surface_attribs[0];
-    s_attrib->type = VASurfaceAttribPixelFormat;
-    s_attrib->flags = VA_SURFACE_ATTRIB_SETTABLE;
-    s_attrib->value.type = VAGenericValueTypeInteger;
-    s_attrib->value.value.i = csc_src_fourcc;
-
+    
     // 1. make sure dst fourcc is supported for vaImage
     if (!lookup_image_format(csc_dst_fourcc)) {
         test_color_conversion = 0;
@@ -270,6 +265,12 @@ int csc_preparation ()
     }
 
     // 2. make sure src_fourcc is supported for vaSurface
+    VASurfaceAttrib surface_attribs[1], * const s_attrib = &surface_attribs[0];
+    s_attrib->type = VASurfaceAttribPixelFormat;
+    s_attrib->flags = VA_SURFACE_ATTRIB_SETTABLE;
+    s_attrib->value.type = VAGenericValueTypeInteger;
+    s_attrib->value.value.i = csc_src_fourcc;
+
     if (!lookup_surface_attrib(VASurfaceAttribPixelFormat, &s_attrib->value)) {
         printf("VA driver doesn't support %s surface, skip additional color conversion\n",  map_vafourcc_to_str(csc_src_fourcc));
         test_color_conversion = 0;
