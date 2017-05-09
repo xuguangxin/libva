@@ -87,8 +87,6 @@ LOCAL_COPY_HEADERS_TO := libva/va
 
 LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE := libva
-LOCAL_PROPRIETARY_MODULE := true
-LOCAL_MODULE_RELATIVE_PATH := hw
 
 LOCAL_SHARED_LIBRARIES := libdl libdrm libcutils liblog
 
@@ -125,8 +123,6 @@ LOCAL_COPY_HEADERS := va_android.h
 
 LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE := libva-android
-LOCAL_PROPRIETARY_MODULE := true
-LOCAL_MODULE_RELATIVE_PATH := hw
 
 LOCAL_SHARED_LIBRARIES := libva libdrm
 
@@ -154,8 +150,6 @@ LOCAL_COPY_HEADERS := egl/va_egl.h egl/va_backend_egl.h
 
 LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE := libva-egl
-LOCAL_PROPRIETARY_MODULE := true
-LOCAL_MODULE_RELATIVE_PATH := hw
 
 LOCAL_SHARED_LIBRARIES := libva
 
@@ -185,7 +179,5 @@ LOCAL_SHARED_LIBRARIES := libva
 
 LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE := libva-tpi
-CAL_PROPRIETARY_MODULE := true
-LOCAL_MODULE_RELATIVE_PATH := hw
 
 include $(BUILD_SHARED_LIBRARY)
